@@ -1,0 +1,52 @@
+package com.promineotech.jeep.controller;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.function.IntPredicate;
+
+import org.apache.catalina.connector.Response;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.IntPredicateAssert;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.promineotech.jeep.controller.support.FetchTestJeepSupport;
+import com.promineotech.jeep.entity.Jeep;
+import com.promineotech.jeep.entity.JeepModel;
+
+import ch.qos.logback.core.net.SyslogOutputStream;
+
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+class FetchJeepTest extends FetchTestJeepSupport {
+	
+
+// 2/22 changing ****************8
+	@SuppressWarnings("unchecked")
+//	@Test
+	// err this method return is null I'll change void to public
+	void TestRestTemplate testThatJeepsAreReturnedWhenAValidModelAndTrimAreSupplied() {
+//		Given: a valid model, trim, & Uri
+		JeepModel model = JeepModel.WRANGLER;
+		String trim = "Willys Sport";
+		String uri = String.format("%s?model=%s&trim=%s", getBaseUriForJeeps(), model, trim);
+		// vid 4 getBaseUri() only
+		
+		System.out.println(uri);
+//    	When: a connection is made to the URI
+
+		ResponseEntity<Jeep> response = restTemplate.getForEntity(uri, Jeep.class);
+		
+		// THEN: A SUCCESS (OK-200) is returned
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+//		System.out.println(getBaseUriForJeep());
+		
+	}  // close test	
+
+
+} // close  FetchJeepTest
