@@ -46,7 +46,7 @@ class FetchJeepTest extends FetchTestJeepSupport {
 		String trim = "Sport";
 		String uri = String.format("%s?model=%s&trim=%s", getBaseUriForJeeps(), model, trim);
 
-//		System.out.println(uri);
+
 //    	When: a connection is made to the URI
 
 		ResponseEntity<Jeep> response = restTemplate.getForEntity(uri, Jeep.class);
@@ -54,8 +54,7 @@ class FetchJeepTest extends FetchTestJeepSupport {
 		// THEN: A SUCCESS (OK-200) is returned
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		
-//		return null;
-//		System.out.println(getBaseUriForJeep());
+
 		
 	}  // close test	
 
