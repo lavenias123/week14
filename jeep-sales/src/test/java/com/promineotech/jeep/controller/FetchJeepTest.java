@@ -29,6 +29,12 @@ class FetchJeepTest extends FetchTestJeepSupport {
 	@LocalServerPort
     private int serverPort;
     
+	/** step 13 I already have it starts on line 50
+	JeepModel model(JeepModel.WRANGLER);
+	String trim("Sport");
+	String uri String.format("localhost:&d/jeeps?model=%s&trim=%s", serverPort, model, trim);
+	*/
+	
     //TEST REST TEMPLATE TO SEND THE HTTP REQUESTS 
     //This one allows a test rest template to be created for us 
     @Autowired 
