@@ -13,7 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
+//import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -23,17 +24,13 @@ import com.promineotech.jeep.entity.JeepModel;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.Getter;
+import org.springframework.boot.*;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class FetchJeepTest extends FetchTestJeepSupport {
-	@LocalServerPort
+	@org.springframework.boot.web.test.web.server
     private int serverPort;
     
-	/** step 13 I already have it starts on line 50
-	JeepModel model(JeepModel.WRANGLER);
-	String trim("Sport");
-	String uri String.format("localhost:&d/jeeps?model=%s&trim=%s", serverPort, model, trim);
-	*/
 	
     //TEST REST TEMPLATE TO SEND THE HTTP REQUESTS 
     //This one allows a test rest template to be created for us 
@@ -41,7 +38,6 @@ class FetchJeepTest extends FetchTestJeepSupport {
     @Getter
     private TestRestTemplate restTemplate;	
 
-// 2/22 changing ****************8
 	@SuppressWarnings("unchecked")
 	@Test
 
