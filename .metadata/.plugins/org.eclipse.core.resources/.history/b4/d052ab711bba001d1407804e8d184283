@@ -1,0 +1,69 @@
+package com.promineotech.jeep.controller;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.function.IntPredicate;
+
+import org.apache.catalina.connector.Response;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.IntPredicateAssert;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+//import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.promineotech.jeep.controller.support.FetchTestJeepSupport;
+import com.promineotech.jeep.entity.Jeep;
+import com.promineotech.jeep.entity.JeepModel;
+
+import ch.qos.logback.core.net.SyslogOutputStream;
+import lombok.Getter;
+import org.springframework.boot.*;
+
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
+class FetchJeepTest extends FetchTestJeepSupport {
+	@org.springframework.boot.web.test.web.server
+   
+/** 	// vid doesn't have
+//	private int serverPort;
+    
+	
+    //TEST REST TEMPLATE TO SEND THE HTTP REQUESTS 
+    //This one allows a test rest template to be created for us 
+   
+	@Autowired 
+    @Getter
+    private TestRestTemplate restTemplate;	
+
+	@SuppressWarnings("unchecked")
+*/	
+	@Test
+
+//	TestRestTemplate 
+	void testThatJeepsAreReturnedWhenAValidModelAndTrimAreSupplied() {
+//		Given: a valid model, trim, & Uri
+		JeepModel model = JeepModel.WRANGLER;
+		String trim = "Sport";
+		String uri = String.format("%s?model=%s&trim=%s", getBaseUriForJeeps(), model, trim);
+// 		* vid uri = getBaseUri()
+
+//    	When: a connection is made to the URI
+
+		ResponseEntity<Jeep> response = restTemplate.getForEntity(uri, Jeep.class);
+// 		* we got rid of getRestTemplate - he said I didn't need it
+		
+		// THEN: A SUCCESS (OK-200) is returned
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		
+
+		
+	}  // close test	
+
+} // close  FetchJeepTest

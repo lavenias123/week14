@@ -1,0 +1,11 @@
+package com.promineotech.jeep.controller.support;
+
+import java.util.List;
+
+import com.promineotech.jeep.entity.Jeep;
+
+public class FetchTestJeepSupport extends BaseTest {
+	protected List<Jeep> buildExpected() {
+		return null;
+	}
+}

@@ -3,6 +3,7 @@ package com.promineotech.jeep.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
 import java.util.function.IntPredicate;
 
 import org.apache.catalina.connector.Response;
@@ -15,8 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 //import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.promineotech.jeep.controller.support.FetchTestJeepSupport;
 import com.promineotech.jeep.entity.Jeep;
@@ -27,18 +31,10 @@ import lombok.Getter;
 import org.springframework.boot.*;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 class FetchJeepTest extends FetchTestJeepSupport {
 	@org.springframework.boot.web.test.web.server
-    private int serverPort;
-    
-	
-    //TEST REST TEMPLATE TO SEND THE HTTP REQUESTS 
-    //This one allows a test rest template to be created for us 
-    @Autowired 
-    @Getter
-    private TestRestTemplate restTemplate;	
-
-	@SuppressWarnings("unchecked")
+   	
 	@Test
 
 //	TestRestTemplate 
@@ -48,16 +44,25 @@ class FetchJeepTest extends FetchTestJeepSupport {
 		String trim = "Sport";
 		String uri = String.format("%s?model=%s&trim=%s", getBaseUriForJeeps(), model, trim);
 
-
 //    	When: a connection is made to the URI
 
-		ResponseEntity<Jeep> response = restTemplate.getForEntity(uri, Jeep.class);
+		ResponseEntity<List<Jeep>> response = 
+				restTemplate.exchange(uri, HttpMethod.GET, null, 
+						new ParameterizedTypeReference<>() {});
+
 		
 		// THEN: A SUCCESS (OK-200) is returned
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		
-
+		// And: the actual list returned is the same as expected list
+		
+		List<Jeep> expected = buildExpected();
+		System.out.println(expected);
+		assertThat(response.getBody()).isEqualTo(expected);
+		
 		
 	}  // close test	
+
+
 
 } // close  FetchJeepTest
